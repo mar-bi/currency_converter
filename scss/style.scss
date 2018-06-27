@@ -62,7 +62,7 @@ footer {
   }
 }
 
-.converter-form {
+#converter-form {
   padding: 0.5em;  
   font-size: 1.3em;
   select {
@@ -107,6 +107,10 @@ footer {
 }
 
 input#conv-result {
+  background-color: lighten($gray, 65%);
+  border: 2px solid $blue;
+  border-radius: 4px;
+  padding: 4px 5px;
   &::placeholder {
     color: $blue;
     opacity: 1;

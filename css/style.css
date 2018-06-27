@@ -37,20 +37,20 @@ footer p {
     .converter {
       width: 400px; } }
 
-.converter-form {
+#converter-form {
   padding: 0.5em;
   font-size: 1.3em; }
-  .converter-form select {
+  #converter-form select {
     width: 6em; }
     @media screen and (min-width: 450px) {
-      .converter-form select {
+      #converter-form select {
         width: 8em;
         font-size: 0.9em; } }
   @media screen and (min-width: 450px) {
-    .converter-form input[type="text"] {
+    #converter-form input[type="text"] {
       width: 7em;
       font-size: 0.9em; } }
-  .converter-form input[type="submit"] {
+  #converter-form input[type="submit"] {
     display: block;
     width: 40%;
     margin: 0 auto;
@@ -60,13 +60,13 @@ footer p {
     padding: 0.5em;
     border: 2px solid #7ddc1f;
     border-radius: 5px; }
-    .converter-form input[type="submit"]:hover {
+    #converter-form input[type="submit"]:hover {
       background-color: #7ddc1f; }
-    .converter-form input[type="submit"]:active {
+    #converter-form input[type="submit"]:active {
       box-shadow: 3px 3px 5px #666;
       transform: translate(3px, 3px); }
     @media screen and (min-width: 450px) {
-      .converter-form input[type="submit"] {
+      #converter-form input[type="submit"] {
         font-size: 0.9em; } }
 
 .form-box {
@@ -74,17 +74,22 @@ footer p {
   margin: 0 auto;
   padding: 0.5em; }
 
-input#conv-result::placeholder {
-  color: #0073e5;
-  opacity: 1;
-  font-weight: 600; }
-input#conv-result:-ms-input-placeholder {
-  /* Internet Explorer 10-11 */
-  color: #0073e5;
-  font-weight: 600; }
-input#conv-result::-ms-input-placeholder {
-  /* Microsoft Edge */
-  color: #0073e5;
-  font-weight: 600; }
+input#conv-result {
+  background-color: #eaeaea;
+  border: 2px solid #0073e5;
+  border-radius: 4px;
+  padding: 4px 5px; }
+  input#conv-result::placeholder {
+    color: #0073e5;
+    opacity: 1;
+    font-weight: 600; }
+  input#conv-result:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #0073e5;
+    font-weight: 600; }
+  input#conv-result::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #0073e5;
+    font-weight: 600; }
 
 /*# sourceMappingURL=style.css.map */
