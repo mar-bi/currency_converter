@@ -11,7 +11,7 @@
 <body>
   <h1>Currency Converter</h1>
   <section class="converter">
-    <form action="" method="get" class="converter-form">
+    <form action="" method="get" id="converter-form">
       <!-- from currency -->
       <div class="form-box">
         <select name="from" id="currency-from">
@@ -26,11 +26,11 @@
         <select name="to" id="currency-to">
           <option value="">To</option>
         </select>
-        <input type="text" id="conv-result" value="0" placeholder="0" size="10" readonly=""/>
+        <input type="text" id="conv-result" value="" placeholder="0" size="10" readonly=""/>
     </div>
 
       <!-- button -->
-      <input type="submit" value="Convert"/>
+      <input type="submit" value="Convert" id="convert-button"/>
     </form>
   </section>
   
@@ -40,6 +40,6 @@
       &copy; 2018
     </p>
   </footer>
-  <script type="text/javascript" src="js/main/index.js"></script>  
+  <!-- <script type="text/javascript" src="js/main/index.js"></script>   -->
 </body>
 </html>
