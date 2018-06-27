@@ -1,3 +1,6 @@
+//google-fonts
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+
 //variables
 $blue: #0073e5;
 $green: #7ddc1f;
@@ -67,12 +70,15 @@ footer {
   font-size: 1.3em;
   select {
     width: 6em;
+    font-size: 0.75em;
     @media screen and (min-width: $largescreen) {
       width: 8em;
       font-size: 0.9em;
     }
   }
   input[type="text"]{
+    border-radius: 4px;
+    padding: 2px 3px;
     @media screen and (min-width: $largescreen) {
       width: 7em;
       font-size: 0.9em;
@@ -101,29 +107,31 @@ footer {
 }
 
 .form-box {
-  width: 80%;
+  width: 85%;
   margin: 0 auto;
-  padding: 0.5em;
+  padding: 0.3em;
+}
+
+input#conv-amount {
+  border: 2px solid lighten($gray, 30%);
 }
 
 input#conv-result {
   background-color: lighten($gray, 65%);
   border: 2px solid $blue;
-  border-radius: 4px;
-  padding: 4px 5px;
   &::placeholder {
     color: $blue;
     opacity: 1;
-    font-weight: 600;
+    font-weight: 700;
   }
   &:-ms-input-placeholder { /* Internet Explorer 10-11 */
     color: $blue;
-    font-weight: 600;
+    font-weight: 700;
   }
 
   &::-ms-input-placeholder { /* Microsoft Edge */
     color: $blue;
-    font-weight: 600;
+    font-weight: 700;
   }
 }
 
