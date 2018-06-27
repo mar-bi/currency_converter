@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Currency Converter</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+  <h1>Currency Converter</h1>
+  <section class="converter">
+    <form action="" method="get" class="converter-form">
+      <!-- from currency -->
+      <div class="form-box">
+        <select name="from" id="currency-from">
+          <option value="">From</option>
+        </select>
+        <input type="text" id="conv-amount" size="10" required pattern="[0-9]+" 
+        minlength="1" maxlength="12"/>
+    </div>
+
+      <!-- to currency -->
+      <div class="form-box">
+        <select name="to" id="currency-to">
+          <option value="">To</option>
+        </select>
+        <input type="text" id="conv-result" value="0" placeholder="0" size="10" readonly=""/>
+    </div>
+
+      <!-- button -->
+      <input type="submit" value="Convert"/>
+    </form>
+  </section>
+  
+  <footer>
+    <p>
+      made by <a href="http://mar-bi.github.io" target="_blank">mar-bi</a> 
+      &copy; 2018
+    </p>
+  </footer>
+  <script type="text/javascript" src="js/main/index.js"></script>  
+</body>
+</html>
