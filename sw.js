@@ -9,7 +9,8 @@ self.addEventListener('install', event => {
         '/',
         'index.js',
         'css/style.css',
-        'https://fonts.googleapis.com/css?family=Roboto:400,700'
+        'https://fonts.googleapis.com/css?family=Roboto:400,700',
+        'https://github.com/jakearchibald/idb/blob/master/lib/idb.js'
       ]);
     })
   );
