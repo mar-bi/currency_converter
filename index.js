@@ -24,6 +24,7 @@ const ready = function(fn){
 function app(){
   //register service worker
 
+  //!!! change location of sw file to 'repo-name/sw.js' and scope to '/repo-name/
   if ('serviceWorker' in navigator){
     navigator.serviceWorker.register('sw.js').then(registration => {
       console.log(`Registration is successful, the scope is ${registration.scope}`);
@@ -31,9 +32,6 @@ function app(){
       console.log(err);
     });
   }
-
-  
-
 
   //clear convert result
   clearConvertResults();
