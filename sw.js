@@ -9,8 +9,7 @@ self.addEventListener('install', event => {
         '/',
         'index.js',
         'css/style.css',
-        'https://fonts.googleapis.com/css?family=Roboto:400,700',
-        'https://github.com/jakearchibald/idb/blob/master/lib/idb.js'
+        'https://fonts.googleapis.com/css?family=Roboto:400,700'
       ]);
     })
   );
@@ -33,10 +32,7 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.open(staticCacheName).then(cache => {
       return cache.match(event.request).then(response => {
-        return response || fetch(event.request).then(fetchResponse => {
-          cache.put(event.request, fetchResponse.clone());
-          return fetchResponse;
-        });
+        return response || fetch(event.request);
       });
     })
   );
