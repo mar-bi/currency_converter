@@ -20,7 +20,22 @@ const ready = function(fn){
   document.addEventListener('DOMContentLoaded', fn, false);
 }
 
+const dbPromise = idb.open('convert-db', 1, upgradeDb => {
+  if (!upgradeDb.objectStoreNames.contains('rates')) {
+    const rateOS =upgradeDb.createObjectStore('rates', {keyPath: 'id'}); 
+    rateOS.createIndex('title', 'title');  
+  }
 
+  if (!upgradeDb.objectStoreNames.contains('currencies')) {
+    const currenciesOS = upgradeDb.createObjectStore('currencies', {
+      keyPath: 'id',
+      autoIncrement: true
+    });
+  }
+});
+
+
+// the app logic
 function app(){
   //register service worker
 
@@ -37,11 +52,7 @@ function app(){
   clearConvertResults();
 
   // get & set list of currencies
-  // getCurrencies().then(currencies => {
-  //   setCurrencies(currencies);
-  // }).catch(err => {
-  //   console.log(err);
-  // });
+  getCurrencies();
 
   //add EventListener to the form
   // const convertForm = document.getElementById('converter-form');
@@ -70,6 +81,31 @@ function respondJson(response){
 }
 
 function getCurrencies(){
+  // search in idb first, if not found - fetch currencies
+  dbPromise.then(db => {
+    if (!db) return;
+    
+    const tx = db.transaction('currencies', 'readonly');
+    const store = tx.objectStore('currencies');
+    return store.getAll(); 
+  }).then(results => {
+    if (results.length === 0){
+      // call fetch
+      console.log('going to fetch currencies');
+      return fetchCurrencies().then(result => {
+        setCurrencies(result);
+      });
+    }
+    //or send currencies to be set in UI
+    console.log('using idb records');
+    return setCurrencies(results[0].list);
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
+// get list of currencies from API 
+function fetchCurrencies(){
   const url = "https://free.currencyconverterapi.com/api/v5/currencies";
   const listCurrRequest = new Request(url);
 
@@ -81,20 +117,40 @@ function getCurrencies(){
   return fetch(listCurrRequest).then(response => {
     return respondJson(response);
   }).then(resJson => {
-    return Object.keys(resJson.results);
+    const currencies = Object.keys(resJson.results).sort();
+    saveCurrencies(currencies);
+    return currencies;
   })
   .catch(err => {
     console.log(err);
   });
 }
 
+// save array of currencies to indexedDB
+function saveCurrencies(currArray){
+  dbPromise.then(db => {
+    if (!db) return;
+
+    const tx = db.transaction('currencies', 'readwrite');
+    const store = tx.objectStore('currencies');
+    const item = { list: currArray }; 
+    store.add(item);
+    return tx.complete;
+  }).then(() => {
+    console.log(`currencies saved to db`);
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
+// create options for every currency and append it to <select> 
 function setCurrencies(currArray){
   const fromElement = document.getElementById('currency-from');
   const toElement = document.getElementById('currency-to');
   const fragment = document.createDocumentFragment();
 
   // sort currencies, loop over them, then append an option to the fragment
-  currArray.sort().forEach(elem => {
+  currArray.forEach(elem => {
     const option = document.createElement('option');
     option.innerHTML = elem.toUpperCase();
     fragment.appendChild(option);
@@ -104,6 +160,7 @@ function setCurrencies(currArray){
   fromElement.appendChild(fragment);
   toElement.appendChild(fragmentCopy);
 }
+
 
 function handleConvert(event){
   event.preventDefault();
