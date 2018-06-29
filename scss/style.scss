@@ -141,3 +141,23 @@ input#conv-result {
     font-weight: 700;
   }
 }
+
+#swap {
+  margin-left: 2.5em;
+  font-size: 0.8em;
+  font-weight: 700;
+  color: $blue;
+  padding: 0.3em 0.6em;
+  border: 2px solid $blue;
+  border-radius: 5px;
+  &:hover {
+    background-color: $blue;
+    color: $white;
+  }
+  &:active {
+    @include activebutton(2px, 2px, 2px, 2px);
+  }
+  @media screen and (min-width: $largescreen) {
+    font-size: 0.9em;
+  }
+}
