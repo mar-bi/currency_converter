@@ -67,11 +67,11 @@ footer {
 }
 
 #converter-form {
-  padding: 0.5em;
+  padding: 0.5em 0;
   font-size: 1.3em;
   select {
     width: 6em;
-    font-size: 0.75em;
+    font-size: 0.8em;
     @media screen and (min-width: $largescreen) {
       width: 8em;
       font-size: 0.9em;
@@ -80,6 +80,7 @@ footer {
   input[type="text"] {
     border-radius: 4px;
     padding: 2px 3px;
+    font-size: 0.8em;
     @media screen and (min-width: $largescreen) {
       width: 7em;
       font-size: 0.9em;
@@ -108,9 +109,12 @@ footer {
 }
 
 .form-box {
-  width: 85%;
+  width: 90%;
   margin: 0 auto;
-  padding: 0.3em;
+  padding: 0.3em 0;
+  @media screen and (min-width: $largescreen) {
+    width: 80%;
+  }
 }
 
 input#conv-amount {
