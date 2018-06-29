@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Currency Converter</title>
-  <link rel="canonical" href="https://mar-bi.github.io/currency_converter/"/>
+  <link rel="canonical" href="https://mar-bi.github.io/currency_converter/" />
   <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
+
 <body>
   <h1>Currency Converter</h1>
   <section class="converter">
@@ -17,26 +19,26 @@
         <select name="from" id="currency-from">
           <option value="">From</option>
         </select>
-        <input type="text" id="conv-amount" size="10" required pattern="[0-9]+" 
-        minlength="1" maxlength="12"/>
-    </div>
+        <input type="text" id="conv-amount" size="10" required pattern="[0-9]+" minlength="1" maxlength="12" />
+      </div>
 
       <!-- to currency -->
       <div class="form-box">
         <select name="to" id="currency-to">
           <option value="">To</option>
         </select>
-        <input type="text" id="conv-result" value="" placeholder="0" size="10" readonly=""/>
-    </div>
+        <input type="text" id="conv-result" value="" placeholder="0" size="10" readonly="" />
+      </div>
 
       <!-- button -->
-      <input type="submit" value="Convert" id="convert-button"/>
+      <input type="submit" value="Convert" id="convert-button" />
     </form>
   </section>
-  
+
   <footer>
     <p>
-      made by <a href="http://mar-bi.github.io/" target="_blank">mar-bi</a> 
+      made by
+      <a href="http://mar-bi.github.io/" target="_blank">mar-bi</a>
       &copy; 2018
     </p>
   </footer>
@@ -44,4 +46,5 @@
   <script type="text/javascript" src="js/idb.js"></script>
   <script type="text/javascript" src="index.js"></script>
 </body>
+
 </html>
