@@ -1,17 +1,22 @@
-const staticCacheName = 'currency-converter-static-v1';
+const appPrefix = 'currency-converter-static',
+  cacheVersion = 'v1',
+  staticCacheName = `${appPrefix}-${cacheVersion}`,
+  repoPrefix = '/currency_converter/',
+  URLS = [
+    repoPrefix,
+    `${repoPrefix}index.html`,
+    `${repoPrefix}index.js`,
+    `${repoPrefix}js/idb.js`,
+    `${repoPrefix}css/style.css`,
+    'https://fonts.googleapis.com/css?family=Roboto:400,700'
+  ];
 
 
 self.addEventListener('install', event => {
-  //cache static assets(html, css, js, fonts, img)
+  //cache static assets(html, css, js, fonts, img, etc)
   event.waitUntil(
     caches.open(staticCacheName).then(cache => {
-      return cache.addAll([
-        '/',
-        'index.js',
-        'js/idb.js',
-        'css/style.css',
-        'https://fonts.googleapis.com/css?family=Roboto:400,700'
-      ]);
+      return cache.addAll(URLS);
     })
   );
 });
