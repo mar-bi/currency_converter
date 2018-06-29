@@ -1,14 +1,4 @@
-// when "ready":
-
-// 1. get list of currencies and send(render them) into select#currency-from
-// and select#currency-to as list of options
-
-// 2. send form data when "convert" is clicked - event listener on button, 
-//form events
-// construct query
-
-//3. render received data into input#conv-result
-
+// start when the 'document' is loaded 
 const ready = function(fn){
   if (typeof fn !== 'function') return;
   
@@ -28,7 +18,7 @@ const dbPromise = idb.open('convert-db', 1, upgradeDb => {
   }
 
   if (!upgradeDb.objectStoreNames.contains('currencies')) {
-    const currenciesOS = upgradeDb.createObjectStore('currencies', {
+    upgradeDb.createObjectStore('currencies', {
       keyPath: 'id',
       autoIncrement: true
     });
@@ -53,7 +43,11 @@ function app(){
   clearConvertResults();
 
   // get & set list of currencies
-  getCurrencies();
+  getCurrencies().then(currencies => {
+    setCurrencies(currencies);
+  }).catch(err => {
+    console.log(err);
+  });
 
   //add EventListener to the form
   const convertForm = document.querySelector('#converter-form');
@@ -86,7 +80,7 @@ function respondJson(response){
 
 function getCurrencies(){
   // search in idb first, if not found - fetch currencies
-  dbPromise.then(db => {
+  return dbPromise.then(db => {
     if (!db) return;
     
     const tx = db.transaction('currencies', 'readonly');
@@ -96,13 +90,11 @@ function getCurrencies(){
     if (results.length === 0){
       // call fetch
       console.log('going to fetch currencies');
-      return fetchCurrencies().then(result => {
-        setCurrencies(result);
-      });
+      return fetchCurrencies();
     }
     //or send currencies to be set in UI
-    console.log('using idb records');
-    return setCurrencies(results[0].list);
+    console.log('using currencies from idb');
+    return results[0].list;
   }).catch(err => {
     console.log(err);
   });
