@@ -69,6 +69,11 @@ function app() {
 
   selectFrom.addEventListener("change", clearConvertResults, false);
   selectTo.addEventListener("change", clearConvertResults, false);
+
+  //add EventListener to "swap button"
+  const swapButton = document.querySelector("#swap");
+
+  swapButton.addEventListener("click", swapCurrencies, false);
 }
 
 // HELPER FUNCTIONS -----------------------------------------------------------
@@ -158,14 +163,16 @@ function saveCurrencies(currArray) {
 
 // create options for every currency and append it to <select>
 function setCurrencies(currArray) {
-  const fromElement = document.getElementById("currency-from");
-  const toElement = document.getElementById("currency-to");
-  const fragment = document.createDocumentFragment();
+  const fromElement = document.querySelector("#currency-from"),
+    toElement = document.querySelector("#currency-to"),
+    fragment = document.createDocumentFragment();
 
   // sort currencies, loop over them, then append an option to the fragment
   currArray.forEach(elem => {
-    const option = document.createElement("option");
-    option.innerHTML = elem.toUpperCase();
+    const option = document.createElement("option"),
+      optionValue = elem.toUpperCase();
+    option.innerHTML = optionValue;
+    option.setAttribute("value", optionValue);
     fragment.appendChild(option);
   });
 
@@ -277,6 +284,21 @@ function flattenExchangeRates(rateObj, from, to) {
     item2 = { title: backward, value: toFrom.val };
   console.log(item1, item2);
   return [item1, item2];
+}
+
+// swap currencies ------------------------------------------------------------
+function swapCurrencies(event) {
+  event.preventDefault();
+
+  // get select nodes
+  const currFrom = document.querySelector("#currency-from"),
+    currTo = document.querySelector("#currency-to");
+  const { value: from } = currFrom,
+    { value: to } = currTo;
+
+  //swap & set values
+  currFrom.value = to;
+  currTo.value = from;
 }
 
 // starting the application
