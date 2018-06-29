@@ -8,6 +8,7 @@ self.addEventListener('install', event => {
       return cache.addAll([
         '/',
         'index.js',
+        'js/idb.js',
         'css/style.css',
         'https://fonts.googleapis.com/css?family=Roboto:400,700'
       ]);
@@ -30,10 +31,8 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.open(staticCacheName).then(cache => {
-      return cache.match(event.request).then(response => {
+    caches.match(event.request).then(response => {
         return response || fetch(event.request);
-      });
     })
   );
 });
