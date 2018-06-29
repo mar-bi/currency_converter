@@ -20,9 +20,10 @@ const ready = function(fn){
   document.addEventListener('DOMContentLoaded', fn, false);
 }
 
+// create IndexedDB stores
 const dbPromise = idb.open('convert-db', 1, upgradeDb => {
   if (!upgradeDb.objectStoreNames.contains('rates')) {
-    const rateOS =upgradeDb.createObjectStore('rates', {keyPath: 'id'}); 
+    const rateOS =upgradeDb.createObjectStore('rates', {keyPath: 'title'}); 
     rateOS.createIndex('title', 'title');  
   }
 
@@ -55,18 +56,19 @@ function app(){
   getCurrencies();
 
   //add EventListener to the form
-  // const convertForm = document.getElementById('converter-form');
+  const convertForm = document.querySelector('#converter-form');
   
-  // convertForm.addEventListener('submit', handleConvert, false);
+  convertForm.addEventListener('submit', handleConvert, false);
 
-  //add eventListener to select elements
-  // const selectFrom = document.querySelector('#currency-from'),
-  //   selectTo = document.querySelector('#currency-to');
+  //add EventListener to select elements
+  const selectFrom = document.querySelector('#currency-from'),
+    selectTo = document.querySelector('#currency-to');
 
-  // selectFrom.addEventListener('change', clearConvertResults, false);
-  // selectTo.addEventListener('change', clearConvertResults, false);
+  selectFrom.addEventListener('change', clearConvertResults, false);
+  selectTo.addEventListener('change', clearConvertResults, false);
 }
 
+// HELPER FUNCTIONS -----------------------------------------------------------
 
 function clearConvertResults(){
   const input = document.querySelector('#conv-result');
@@ -79,6 +81,8 @@ function respondJson(response){
   }
   return response.json();
 }
+
+// CURRENCIES FUNCTIONS -------------------------------------------------------
 
 function getCurrencies(){
   // search in idb first, if not found - fetch currencies
@@ -120,8 +124,7 @@ function fetchCurrencies(){
     const currencies = Object.keys(resJson.results).sort();
     saveCurrencies(currencies);
     return currencies;
-  })
-  .catch(err => {
+  }).catch(err => {
     console.log(err);
   });
 }
@@ -162,9 +165,11 @@ function setCurrencies(currArray){
 }
 
 
+// CONVERSION FUNCTIONS -------------------------------------------------------
+
 function handleConvert(event){
   event.preventDefault();
-
+  
   const amount = Number(document.querySelector('#conv-amount').value),
     currFrom = document.querySelector('#currency-from').value,
     currTo = document.querySelector('#currency-to').value,
@@ -173,20 +178,34 @@ function handleConvert(event){
   console.log(`From: ${currFrom} To: ${currTo} Amount: ${amount}`);
 
   getExchangeRates(currFrom, currTo).then(result => {
-    const key = `${currFrom}_${currTo}`;
-    const converted = result[key].val * amount;
+    console.log(`Exchange rate is ${result.value}`);
+    // calculate & set the result
+    const converted = result.value * amount;
     convertResult.value = converted.toFixed(2);
-    console.log(`Exchange rate is ${result[key].val}`);
+  }).catch(err => {
+    console.log(err);
+  });
+}
 
-    // flatten results to save in indexed DB
-    // like {key: result[key].val}
+function getExchangeRates(currFrom, currTo){
+  // check if the rate is in db
+  // if found -> use it
+  // if not -> fetch the rate and save to DB.
+  return dbPromise.then(db => {
+    if (!db) return;
+
+    const tx = db.transaction('rates', 'readonly'),
+      index = tx.objectStore('rates').index('title');
+    return index.get(`${currFrom}_${currTo}`);
+  }).then(value => {
+    return value || getExchangeRatesFromAPI(currFrom, currTo);
   }).catch(err => {
     console.log(err);
   });
 }
 
 
-function getExchangeRates(currencyFrom, currencyTo){
+function getExchangeRatesFromAPI(currencyFrom, currencyTo){
   currencyFrom = encodeURIComponent(currencyFrom);
   currencyTo = encodeURIComponent(currencyTo);
   const query = `${currencyFrom}_${currencyTo},${currencyTo}_${currencyFrom}`,
@@ -201,12 +220,45 @@ function getExchangeRates(currencyFrom, currencyTo){
   return fetch(rateRequest).then(response => {
     return respondJson(response);
   }).then(jsonResponse => {
-    return jsonResponse.results;
+    const { results } = jsonResponse;
+    const rates = flattenExchangeRates(results, currencyFrom, currencyTo);
+    
+    saveExchangeRates(rates);
+    return rates[0];
   }).catch(err => {
     console.log(err);
   });
 }
 
+function saveExchangeRates(ratesArr){
+  dbPromise.then(db => {
+    if (!db) return;
+
+    const tx = db.transaction('rates', 'readwrite');
+    const store = tx.objectStore('rates');
+    const [ item1, item2 ] = ratesArr;
+    
+    store.put(item1);
+    store.put(item2);
+    return tx.complete;
+  }).then(() => {
+    console.log(`rates saved to db`);
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
+function flattenExchangeRates(rateObj, from, to){
+  const forward = `${from}_${to}`,
+    backward = `${to}_${from}`;
+  const {[forward]: fromTo, [backward]: toFrom } = rateObj;
+
+  //flatten records
+  const item1 = { title: forward, value: fromTo.val },
+    item2 = { title: backward, value: toFrom.val };
+  console.log(item1, item2);
+  return [ item1, item2 ];
+}
 
 // starting the application
 ready(app);
