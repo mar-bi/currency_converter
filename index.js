@@ -218,11 +218,23 @@ function getExchangeRates(currFrom, currTo) {
       return index.get(`${currFrom}_${currTo}`);
     })
     .then(value => {
-      return value || getExchangeRatesFromAPI(currFrom, currTo);
+      if (value && checkLastUpdate(value)) {
+        console.log("The rate is fresh");
+        return value;
+      }
+      console.log("No rate or it's expired");
+      return getExchangeRatesFromAPI(currFrom, currTo);
     })
     .catch(err => {
       console.log(err);
     });
+}
+
+// checks whether the rate was updated less than 60 min ago
+function checkLastUpdate(val) {
+  const interval = 60 * 60 * 1000; // api gets updated every 60 min
+  const trustedInterval = val.timeStamp.getTime() + interval;
+  return trustedInterval > Date.now();
 }
 
 function getExchangeRatesFromAPI(currencyFrom, currencyTo) {
@@ -279,9 +291,9 @@ function flattenExchangeRates(rateObj, from, to) {
     backward = `${to}_${from}`;
   const { [forward]: fromTo, [backward]: toFrom } = rateObj;
 
-  //flatten records
-  const item1 = { title: forward, value: fromTo.val },
-    item2 = { title: backward, value: toFrom.val };
+  //flatten records and add timestamp
+  const item1 = { title: forward, value: fromTo.val, timeStamp: new Date() },
+    item2 = { title: backward, value: toFrom.val, timeStamp: new Date() };
   console.log(item1, item2);
   return [item1, item2];
 }
