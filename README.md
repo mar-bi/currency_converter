@@ -17,5 +17,5 @@ Converts currencies using latest conversion rate.
 **API**
 - [FreeCurrencyConverter](https://www.currencyconverterapi.com)
 
-Link to the app [Currency Converter]().
+Link to the app [Currency Converter](https://mar-bi.github.io/currency_converter/).
 
