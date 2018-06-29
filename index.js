@@ -29,10 +29,10 @@ const dbPromise = idb.open('convert-db', 1, upgradeDb => {
 // the app logic
 function app(){
   //register service worker
-
-  //!!! change location of sw file to 'repo-name/sw.js' and scope to '/repo-name/
   if ('serviceWorker' in navigator){
-    navigator.serviceWorker.register('sw.js').then(registration => {
+    navigator.serviceWorker.register('/currency_converter/sw.js', {
+      scope: '/currency_converter/'
+    }).then(registration => {
       console.log(`Registration is successful, the scope is ${registration.scope}`);
     }).catch(err => {
       console.log(err);
