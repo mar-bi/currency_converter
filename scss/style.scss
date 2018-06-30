@@ -87,10 +87,11 @@ footer {
   padding: 0.8em 0 0.5em 0;
   font-size: 1.3em;
   select {
-    width: 7em;
+    width: 8em;
     font-size: 0.8em;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 2px 0;
     @media screen and (min-width: $largescreen) {
       width: 9em;
       font-size: 0.9em;
@@ -98,7 +99,7 @@ footer {
   }
   input[type="text"] {
     border-radius: 4px;
-    padding: 2px 3px;
+    padding: 2px 3px 2px 5px;
     font-size: 0.8em;
     @media screen and (min-width: $largescreen) {
       width: 7em;
