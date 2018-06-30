@@ -1,12 +1,16 @@
 # Currency Converter
 
 Offline first & mobile first web application.  
-Converts currencies using latest conversion rate.
+It converts currencies using latest conversion rate.
 
-**Allows user:**
+_The app is a **ALC#7DaysOfCodeChallenge** individual project_.
 
-1.  Select currencies and amount for conversion
+**Features:**
+
+1.  The user can select currencies and amount for conversion
 2.  Convert currencies while the application is online and offline.
+3.  Offline conversion works only for currencies have been used by user.
+4.  The app notifies user when it cannot get the rate due to the connection.
 
 **Built with:**
 
@@ -17,6 +21,7 @@ Converts currencies using latest conversion rate.
 **Libraries used:**
 
 - [IndexedDB promised](https://github.com/jakearchibald/idb)
+- [prettier-vscode](https://github.com/prettier/prettier-vscode)
 
 **API**
 

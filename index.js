@@ -123,6 +123,7 @@ function getCurrencies() {
     })
     .catch(err => {
       console.log(err);
+      // set message about connection
       setErrorMessage();
     });
 }
@@ -284,6 +285,7 @@ function getExchangeRatesFromAPI(currencyFrom, currencyTo) {
     })
     .catch(err => {
       console.log(err);
+      // set message about connection
       setErrorMessage();
     });
 }
