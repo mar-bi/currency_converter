@@ -7,6 +7,7 @@ $green: #7ddc1f;
 $white: #f5f5f5;
 $gray: #444444;
 $black: #000;
+$warning: #ee1b2e;
 
 $largescreen: 450px;
 
@@ -42,6 +43,7 @@ h1 {
   text-align: center;
   font-size: 1.8em;
   color: $blue;
+  margin: 1em 0 0.5em 0;
   @media screen and (min-width: $largescreen) {
     font-size: 2em;
   }
@@ -186,4 +188,11 @@ input#conv-result {
 
 .curr-name {
   font-size: 0.5em;
+}
+
+#error-message {
+  color: $warning;
+  text-align: center;
+  height: 21px;
+  margin: 0.2em 0 0.5em 0;
 }

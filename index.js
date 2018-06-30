@@ -90,6 +90,15 @@ function respondJson(response) {
   return response.json();
 }
 
+function setErrorMessage() {
+  const messageP = document.querySelector("#error-message");
+  messageP.innerHTML = "Please, check your connection!";
+
+  setTimeout(() => {
+    messageP.innerHTML = "";
+  }, 5000);
+}
+
 // CURRENCIES FUNCTIONS -------------------------------------------------------
 
 function getCurrencies() {
@@ -114,6 +123,7 @@ function getCurrencies() {
     })
     .catch(err => {
       console.log(err);
+      setErrorMessage();
     });
 }
 
@@ -274,6 +284,7 @@ function getExchangeRatesFromAPI(currencyFrom, currencyTo) {
     })
     .catch(err => {
       console.log(err);
+      setErrorMessage();
     });
 }
 
