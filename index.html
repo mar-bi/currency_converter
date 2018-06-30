@@ -6,8 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Currency Converter</title>
+
+  <meta name="description" content="Offline first currency converter">
+  <meta name="image" content="https://mar-bi.github.io/currency_converter/currency_converter_preview.png">
   <link rel="canonical" href="https://mar-bi.github.io/currency_converter/" />
   <link rel="stylesheet" type="text/css" href="css/style.css">
+
+  <!-- OpenGraph tags -->
+  <meta property="og:url" content="https://mar-bi.github.io/currency_converter/">
+  <meta property="og:type" content="application">
+  <meta property="og:title" content="Currency converter">
+  <meta property="og:description" content="Offline first currency converter">
+  <meta property="og:image" content="https://mar-bi.github.io/currency_converter/currency_converter_preview.png">
+
+  <!-- Twitter Card tags -->
+  <meta name="twitter:title" content="Currency converter">
+  <meta name="twitter:description" content="Offline first currency converter">
+  <meta name="twitter:image" content="https://mar-bi.github.io/currency_converter/currency_converter_preview.png">
 </head>
 
 <body>
@@ -16,10 +31,11 @@
     <form action="" method="get" id="converter-form">
       <!-- from currency -->
       <div class="form-box">
-        <select name="from" id="currency-from">
+        <select name="from" id="currency-from" aria-label="Currency from">
           <option value="">From</option>
         </select>
-        <input type="text" id="conv-amount" size="10" required pattern="[0-9]+" minlength="1" maxlength="12" />
+        <input type="text" id="conv-amount" size="10" required pattern="[0-9]+" minlength="1" maxlength="12" aria-label="Currency amount"
+        />
       </div>
 
       <div class="form-box">
@@ -28,10 +44,10 @@
 
       <!-- to currency -->
       <div class="form-box">
-        <select name="to" id="currency-to">
+        <select name="to" id="currency-to" aria-label="Currency to">
           <option value="">To</option>
         </select>
-        <input type="text" id="conv-result" value="" placeholder="0" size="10" readonly="" />
+        <input type="text" id="conv-result" value="" placeholder="0" size="10" readonly="" aria-label="Converted amount" />
       </div>
 
       <!-- button -->
