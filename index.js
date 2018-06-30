@@ -132,13 +132,26 @@ function fetchCurrencies() {
       return respondJson(response);
     })
     .then(resJson => {
-      const currencies = Object.keys(resJson.results).sort();
+      const currencies = formatCurrencies(resJson.results);
       saveCurrencies(currencies);
       return currencies;
     })
     .catch(err => {
       console.log(err);
     });
+}
+
+// format currencies as array of objects and shorten long currency names
+function formatCurrencies(currObject) {
+  let currencies = [];
+  const currKeys = Object.keys(currObject);
+  for (key of currKeys) {
+    const { currencyName: name } = currObject[key];
+    const currencyName =
+      name.length > 23 ? `${name.substring(0, 23)}...` : name;
+    currencies.push({ id: key.toUpperCase(), currencyName });
+  }
+  return currencies;
 }
 
 // save array of currencies to indexedDB
@@ -170,8 +183,8 @@ function setCurrencies(currArray) {
   // sort currencies, loop over them, then append an option to the fragment
   currArray.forEach(elem => {
     const option = document.createElement("option"),
-      optionValue = elem.toUpperCase();
-    option.innerHTML = optionValue;
+      optionValue = elem.id;
+    option.innerHTML = `${elem.id} - ${elem.currencyName}`;
     option.setAttribute("value", optionValue);
     fragment.appendChild(option);
   });
@@ -206,8 +219,8 @@ function handleConvert(event) {
 }
 
 function getExchangeRates(currFrom, currTo) {
-  // check if the rate is in db
-  // if found -> use it
+  // check if the rate is in db & fresh (stored < 60 min ago)
+  // if found & fresh -> use it
   // if not -> fetch the rate and save to DB.
   return dbPromise
     .then(db => {
@@ -230,9 +243,11 @@ function getExchangeRates(currFrom, currTo) {
     });
 }
 
-// checks whether the rate was updated less than 60 min ago
+// checks whether the rate was updated less than 2 hours ago
 function checkLastUpdate(val) {
-  const interval = 60 * 60 * 1000; // api gets updated every 60 min
+  // the currency converter api gets updated every 60 min
+  // consider updating rates after 2 hours
+  const interval = 2 * 60 * 60 * 1000;
   const trustedInterval = val.timeStamp.getTime() + interval;
   return trustedInterval > Date.now();
 }
@@ -311,6 +326,9 @@ function swapCurrencies(event) {
   //swap & set values
   currFrom.value = to;
   currTo.value = from;
+
+  // clear conversion result
+  clearConvertResults();
 }
 
 // starting the application

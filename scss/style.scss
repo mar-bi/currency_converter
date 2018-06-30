@@ -25,7 +25,7 @@ $largescreen: 450px;
   }
 }
 
-@mixin topLeftAccentBorder($sizeTL, $sizeBR, $colorTL, $colorBR){
+@mixin topLeftAccentBorder($sizeTL, $sizeBR, $colorTL, $colorBR) {
   border-top: $sizeTL solid $colorTL;
   border-left: $sizeTL solid $colorTL;
 
@@ -58,8 +58,9 @@ footer {
     text-align: center;
     font-size: 1em;
     color: darken($gray, 15%);
+    margin-top: 1.5em;
     a {
-      color: darken($blue, 5%); 
+      color: darken($blue, 5%);
     }
   }
 }
@@ -68,9 +69,14 @@ footer {
   width: 280px;
   margin: 0 auto;
   padding: 0.5em;
-  background-color: darken($white, 3%);
-  @include topLeftAccentBorder(2px, 1px, darken($white, 35%), darken($white, 30%));
-  border-radius: 3px;
+  background-color: lighten($gray, 65%);
+  @include topLeftAccentBorder(
+    2px,
+    1px,
+    lighten($gray, 40%),
+    lighten($gray, 35%)
+  );
+  border-radius: 4px;
   box-shadow: 6px 6px 3px 3px lighten($gray, 25%);
   @media screen and (min-width: $largescreen) {
     width: 400px;
@@ -81,10 +87,12 @@ footer {
   padding: 0.8em 0 0.5em 0;
   font-size: 1.3em;
   select {
-    width: 6em;
+    width: 7em;
     font-size: 0.8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
     @media screen and (min-width: $largescreen) {
-      width: 8em;
+      width: 9em;
       font-size: 0.9em;
     }
   }
@@ -116,11 +124,16 @@ footer {
       font-size: 0.9em;
     }
   }
+  option {
+    font-size: 0.85em;
+    &:first-child {
+      font-size: 1em;
+    }
+  }
 }
 
-
 .form-box {
-  width: 90%;
+  width: 95%;
   margin: 0 auto;
   padding: 0.3em 0;
   @media screen and (min-width: $largescreen) {
@@ -168,4 +181,8 @@ input#conv-result {
   @media screen and (min-width: $largescreen) {
     font-size: 0.9em;
   }
+}
+
+.curr-name {
+  font-size: 0.5em;
 }
