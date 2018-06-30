@@ -105,7 +105,7 @@ function getCurrencies() {
     .then(results => {
       if (results.length === 0) {
         // call fetch
-        console.log("going to fetch currencies");
+        console.log("fetching currencies");
         return fetchCurrencies();
       }
       //or send currencies to be set in UI
@@ -204,11 +204,8 @@ function handleConvert(event) {
     currTo = document.querySelector("#currency-to").value,
     convertResult = document.querySelector("#conv-result");
 
-  console.log(`From: ${currFrom} To: ${currTo} Amount: ${amount}`);
-
   getExchangeRates(currFrom, currTo)
     .then(result => {
-      console.log(`Exchange rate is ${result.value}`);
       // calculate & set the result
       const converted = result.value * amount;
       convertResult.value = converted.toFixed(2);
@@ -232,7 +229,7 @@ function getExchangeRates(currFrom, currTo) {
     })
     .then(value => {
       if (value && checkLastUpdate(value)) {
-        console.log("The rate is fresh");
+        console.log("The rate is current");
         return value;
       }
       console.log("No rate or it's expired");
@@ -309,7 +306,6 @@ function flattenExchangeRates(rateObj, from, to) {
   //flatten records and add timestamp
   const item1 = { title: forward, value: fromTo.val, timeStamp: new Date() },
     item2 = { title: backward, value: toFrom.val, timeStamp: new Date() };
-  console.log(item1, item2);
   return [item1, item2];
 }
 
