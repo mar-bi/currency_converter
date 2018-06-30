@@ -11,15 +11,31 @@ $black: #000;
 $largescreen: 450px;
 
 //mixins
-@mixin activebutton($xshadow, $yshadow, $xtrans, $ytrans) {
+@mixin activeButton($xshadow, $yshadow, $xtrans, $ytrans) {
   box-shadow: $xshadow $yshadow 5px #666;
   transform: translate($xtrans, $ytrans);
+}
+
+@mixin hoverButtonTransition($bgColor, $textColor) {
+  transition: background-color 2s ease;
+  &:hover {
+    background-color: $bgColor;
+    color: $textColor;
+    cursor: pointer;
+  }
+}
+
+@mixin topLeftAccentBorder($sizeTL, $sizeBR, $colorTL, $colorBR){
+  border-top: $sizeTL solid $colorTL;
+  border-left: $sizeTL solid $colorTL;
+
+  border-right: $sizeBR solid $colorBR;
+  border-bottom: $sizeBR solid $colorBR;
 }
 
 //style
 body {
   font-family: "Roboto", sans-serif;
-  background-color: $white;
 }
 
 h1 {
@@ -29,11 +45,6 @@ h1 {
   @media screen and (min-width: $largescreen) {
     font-size: 2em;
   }
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
 }
 
 select,
@@ -46,9 +57,9 @@ footer {
   p {
     text-align: center;
     font-size: 1em;
-    color: $gray;
+    color: darken($gray, 15%);
     a {
-      color: $blue;
+      color: darken($blue, 5%); 
     }
   }
 }
@@ -58,7 +69,7 @@ footer {
   margin: 0 auto;
   padding: 0.5em;
   background-color: darken($white, 3%);
-  border: 1px solid $green;
+  @include topLeftAccentBorder(2px, 1px, darken($white, 35%), darken($white, 30%));
   border-radius: 3px;
   box-shadow: 6px 6px 3px 3px lighten($gray, 25%);
   @media screen and (min-width: $largescreen) {
@@ -67,7 +78,7 @@ footer {
 }
 
 #converter-form {
-  padding: 0.5em 0;
+  padding: 0.8em 0 0.5em 0;
   font-size: 1.3em;
   select {
     width: 6em;
@@ -93,20 +104,20 @@ footer {
     margin-top: 0.75em;
     font-size: 0.75em;
     color: $black;
+    background-color: $white;
     padding: 0.5em;
     border: 2px solid $green;
     border-radius: 5px;
-    &:hover {
-      background-color: $green;
-    }
+    @include hoverButtonTransition($green, $black);
     &:active {
-      @include activebutton(3px, 3px, 3px, 3px);
+      @include activeButton(3px, 3px, 3px, 3px);
     }
     @media screen and (min-width: $largescreen) {
       font-size: 0.9em;
     }
   }
 }
+
 
 .form-box {
   width: 90%;
@@ -125,19 +136,19 @@ input#conv-result {
   background-color: lighten($gray, 65%);
   border: 2px solid $blue;
   &::placeholder {
-    color: $blue;
+    color: $black;
     opacity: 1;
     font-weight: 700;
   }
   &:-ms-input-placeholder {
     /* Internet Explorer 10-11 */
-    color: $blue;
+    color: $black;
     font-weight: 700;
   }
 
   &::-ms-input-placeholder {
     /* Microsoft Edge */
-    color: $blue;
+    color: $black;
     font-weight: 700;
   }
 }
@@ -146,15 +157,13 @@ input#conv-result {
   margin-left: 2.5em;
   font-size: 0.8em;
   color: $black;
+  background-color: $white;
   padding: 0.3em 0.6em;
   border: 2px solid $blue;
   border-radius: 5px;
-  &:hover {
-    background-color: $blue;
-    color: $white;
-  }
+  @include hoverButtonTransition($blue, $white);
   &:active {
-    @include activebutton(2px, 2px, 2px, 2px);
+    @include activeButton(2px, 2px, 2px, 2px);
   }
   @media screen and (min-width: $largescreen) {
     font-size: 0.9em;
