@@ -144,7 +144,7 @@ function fetchCurrencies() {
 // format currencies as array of objects and shorten long currency names
 function formatCurrencies(currObject) {
   let currencies = [];
-  const currKeys = Object.keys(currObject);
+  const currKeys = Object.keys(currObject).sort();
   for (key of currKeys) {
     const { currencyName: name } = currObject[key];
     const currencyName =
@@ -219,7 +219,7 @@ function handleConvert(event) {
 }
 
 function getExchangeRates(currFrom, currTo) {
-  // check if the rate is in db & fresh (stored < 60 min ago)
+  // check if the rate is in db & fresh (stored < 120 min ago)
   // if found & fresh -> use it
   // if not -> fetch the rate and save to DB.
   return dbPromise
