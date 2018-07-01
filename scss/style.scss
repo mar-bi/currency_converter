@@ -60,10 +60,15 @@ footer {
     text-align: center;
     font-size: 1em;
     color: darken($gray, 15%);
-    margin-top: 1.5em;
+    margin: 1.5em 0 0.5em 0;
     a {
       color: darken($blue, 5%);
     }
+  }
+  .attribution {
+    font-size: 0.75em;
+    color: $gray;
+    margin: 0.3em 0;
   }
 }
 
