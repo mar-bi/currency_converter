@@ -90,9 +90,9 @@ function respondJson(response) {
   return response.json();
 }
 
-function setErrorMessage() {
+function setErrorMessage(message) {
   const messageP = document.querySelector("#error-message");
-  messageP.innerHTML = "Please, check your connection!";
+  messageP.innerHTML = message;
 
   setTimeout(() => {
     messageP.innerHTML = "";
@@ -124,7 +124,7 @@ function getCurrencies() {
     .catch(err => {
       console.log(err);
       // set message about connection
-      setErrorMessage();
+      setErrorMessage("Please, check your connection!");
     });
 }
 
@@ -215,15 +215,21 @@ function handleConvert(event) {
     currTo = document.querySelector("#currency-to").value,
     convertResult = document.querySelector("#conv-result");
 
-  getExchangeRates(currFrom, currTo)
-    .then(result => {
-      // calculate & set the result
-      const converted = result.value * amount;
-      convertResult.value = converted.toFixed(2);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  // check if both values not empty strings
+  if (currFrom && currTo) {
+    getExchangeRates(currFrom, currTo)
+      .then(result => {
+        // calculate & set the result
+        const converted = result.value * amount;
+        convertResult.value = converted.toFixed(2);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    return;
+  }
+  // set message about currencies
+  setErrorMessage("Please, choose currencies!");
 }
 
 function getExchangeRates(currFrom, currTo) {
@@ -286,7 +292,7 @@ function getExchangeRatesFromAPI(currencyFrom, currencyTo) {
     .catch(err => {
       console.log(err);
       // set message about connection
-      setErrorMessage();
+      setErrorMessage("Please, check your connection!");
     });
 }
 
