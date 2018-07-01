@@ -4,7 +4,6 @@ const appPrefix = "currency-converter-static",
   repoPrefix = "/currency_converter/",
   URLS = [
     repoPrefix,
-    `${repoPrefix}index.html`,
     `${repoPrefix}index.js`,
     `${repoPrefix}js/idb.js`,
     `${repoPrefix}css/style.css`,
