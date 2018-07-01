@@ -8,6 +8,9 @@ const appPrefix = "currency-converter-static",
     `${repoPrefix}index.js`,
     `${repoPrefix}js/idb.js`,
     `${repoPrefix}css/style.css`,
+    `${repoPrefix}img/icon-192.png`,
+    `${repoPrefix}img/icon-512.png`,
+    `${repoPrefix}manifest.json`,
     "https://fonts.googleapis.com/css?family=Roboto:400,700"
   ];
 
